@@ -45,9 +45,9 @@ Der Ansatz nutzt vorberechnete Kandidaten, die vom LUNA16-Wettbewerb bereitgeste
 </p>
 <p align="center"><em>Uma Ein CT-Scan besteht aus Hunderten von übereinandergestapelten axialen Schichten, die ein 3D-Volumen bilden.</em></p>
 
-Uma tomografia computadorizada (CT scan) gera um volume 3D do corpo do paciente. Cada "fatia" (slice) é uma imagem 2D, e a pilha de fatias forma o volume completo. Os valores de cada voxel são medidos em **Unidades Hounsfield (HU)** — uma escala onde o ar vale -1000 HU, a água vale 0 HU e o osso pode chegar a +1000 HU.
+Ein Computertomographie-Scan (CT-Scan) erzeugt ein 3D-Volumen des Körpers des Patienten. Jede „Scheibe“ (Slice) ist ein 2D-Bild, und der Stapel aus Scheiben bildet das gesamte Volumen. Die Werte jedes Voxels werden in Hounsfield-Einheiten (HU) gemessen – einer Skala, auf der Luft -1000 HU, Wasser 0 HU und Knochen bis zu +1000 HU beträgt.
 
-No dataset LUNA16, cada CT scan é armazenado como um par de arquivos `.mhd` (metadados) e `.raw` (voxels). O desafio fornece dois CSVs: `candidates.csv` com ~551 mil coordenadas XYZ de pontos suspeitos, e `annotations.csv` com os nódulos confirmados por radiologistas.
+Im Datensatz LUNA16 wird jeder CT-Scan als Paar aus einer .mhd-Datei (Metadaten) und einer .raw-Datei (Voxel) gespeichert. Die Aufgabe stellt zwei CSV-Dateien bereit: candidates.csv mit ~551.000 XYZ-Koordinaten verdächtiger Punkte und annotations.csv mit den von Radiologen bestätigten Knoten.
 
 <br>
 
