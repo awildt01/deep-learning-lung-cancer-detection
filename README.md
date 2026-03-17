@@ -34,8 +34,7 @@ Das Projekt implementiert eine vollständige Pipeline zur Erkennung von Lungenkn
 </p>
 <p align="center"><em>Visão geral do pipeline — do CT scan bruto até a classificação por uma CNN 3D.</em></p>
 
-A abordagem utiliza **candidatos pré-computados** fornecidos pelo challenge LUNA16 (~551 mil coordenadas XYZ). Cada candidato é extraído como um crop 3D de 32x48x48 voxels e classificado por uma CNN 3D como nódulo ou não-nódulo. Não fazemos segmentação nem detecção no pipeline principal — os candidatos já vêm pré-computados pelo challenge.
-
+Übersicht über die Pipeline – vom rohen CT-Scan bis zur Klassifizierung durch ein 3D-CNN.
 <br>
 
 ## Tomografias Computadorizadas
