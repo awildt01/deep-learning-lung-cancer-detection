@@ -67,17 +67,17 @@ Der Weg der Rohdaten bis zum Eingang des neuronalen Netzes umfasst folgende Schr
 
 <br>
 
-## Progresso
+## Fortschritt
 
-- [x] Download e organização do dataset LUNA16
-- [x] Análise exploratória e unificação das fontes de dados
-- [x] Carregamento de CT scans e conversão de coordenadas
-- [x] Construção do PyTorch Dataset com extração de crops 3D
-- [x] Arquitetura da CNN 3D para classificação de nódulos
-- [x] Loop de treinamento com balanceamento e data augmentation
-- [x] Treinamento completo em GPU
-- [x] Avaliação do modelo e análise de erros
-- [x] Deploy com Gradio
+- [x] Herunterladen und Aufbereiten des LUNA16-Datensatzes
+- [x] Explorative Analyse und Zusammenführung der Datenquellen
+- [x] Einlesen der CT-Scans und Koordinatenumwandlung
+- [x] Erstellung des PyTorch-Datensatzes mit Extraktion von 3D-Ausschnitten
+- [x] Architektur des 3D-CNN zur Klassifizierung von Knoten
+- [x] Trainingsschleife mit Datenausgleich und Datenvergrößerung
+- [x] Vollständiges Training auf der GPU
+- [x] Modellbewertung und Fehleranalyse
+- [x] Bereitstellung mit Gradio
 
 <br>
 
