@@ -21,7 +21,7 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 - [Datenpipeline](#Datenpipeline)
 - [Fortschritt](#Fortschritt)
 - [Projektstruktur](#Projektstruktur)
-- [Instalação e Configuração](#instalação-e-configuração)
+- [Installation und Konfiguration](#Installation-und-Konfiguration)
 
 <br>
 
@@ -110,7 +110,7 @@ Der Weg der Rohdaten bis zum Eingang des neuronalen Netzes umfasst folgende Schr
 
 <br>
 
-## Instalação e Configuração
+## Installation und Konfiguration
 
 1. Clonar o repositório para a sua máquina local:
 
