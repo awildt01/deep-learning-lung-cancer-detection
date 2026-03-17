@@ -17,7 +17,7 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 ## Sumário
 
 - [Über das Projekt](#Über-das-Projekt)
-- [Computertomographie:](#Computertomographie:)
+- [Computertomographie](#Computertomographie:)
 - [Pipeline de Dados](#pipeline-de-dados)
 - [Progresso](#progresso)
 - [Estrutura do Projeto](#estrutura-do-projeto)
