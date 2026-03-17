@@ -84,30 +84,6 @@ Der Weg der Rohdaten bis zum Eingang des neuronalen Netzes umfasst folgende Schr
 ## Projektstruktur
 
 ```
-.
-├── notebooks/                 Jupyter notebooks do curso
-│   ├── 01_download_luna16
-│   ├── 02_explore_csv_data
-│   ├── 03_analyze_coordinates
-│   ├── 04_ct_scan_to_dataset
-│   ├── 05_model_architecture
-│   ├── 06_training
-│   ├── 07_colab_training
-│   ├── 08_model_evaluation
-│   └── 09_gradio_deploy
-├── src/                       Módulos Python (gerados via %%writefile)
-│   ├── luna_data.py
-│   ├── model.py
-│   ├── training.py
-│   └── inference.py
-├── app.py                     Aplicação Gradio (gerado via %%writefile)
-├── tests/                     Testes automatizados
-├── checkpoints/               Checkpoints do modelo treinado
-├── data/                      Dataset LUNA16 (não versionado)
-├── docs/                      Diagramas e referências
-└── pyproject.toml             Dependências e configuração
-```
-```
 
 ├── notebooks/                 Jupyter-Notebooks 
 │   ├── 01_download_luna16
