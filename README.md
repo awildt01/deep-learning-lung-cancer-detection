@@ -38,7 +38,7 @@ Der Ansatz nutzt vorberechnete Kandidaten, die vom LUNA16-Wettbewerb bereitgeste
 
 <br>
 
-## Tomografias Computadorizadas
+## Computertomographie
 
 <p align="center">
   <img src="docs/fixed_ct_slices_concept.png" alt="Slices de uma tomografia computadorizada" width="85%">
