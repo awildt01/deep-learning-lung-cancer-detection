@@ -32,9 +32,9 @@ Das Projekt implementiert eine vollständige Pipeline zur Erkennung von Lungenkn
 <p align="center">
   <img src="docs/fixed_landing_7_technical_flow_light.png" alt="Visão geral do pipeline" width="85%">
 </p>
-<p align="center"><em>Visão geral do pipeline — do CT scan bruto até a classificação por uma CNN 3D.</em></p>
+<p align="center"><em>Übersicht über die Pipeline – vom rohen CT-Scan bis zur Klassifizierung durch ein 3D-CNN.</em></p>
 
-Übersicht über die Pipeline – vom rohen CT-Scan bis zur Klassifizierung durch ein 3D-CNN.
+
 <br>
 
 ## Tomografias Computadorizadas
