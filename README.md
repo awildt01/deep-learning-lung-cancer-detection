@@ -43,7 +43,7 @@ Der Ansatz nutzt vorberechnete Kandidaten, die vom LUNA16-Wettbewerb bereitgeste
 <p align="center">
   <img src="docs/fixed_ct_slices_concept.png" alt="Slices de uma tomografia computadorizada" width="85%">
 </p>
-<p align="center"><em>Uma tomografia é composta por centenas de slices axiais empilhados, formando um volume 3D.</em></p>
+<p align="center"><em>Uma Ein CT-Scan besteht aus Hunderten von übereinandergestapelten axialen Schichten, die ein 3D-Volumen bilden.</em></p>
 
 Uma tomografia computadorizada (CT scan) gera um volume 3D do corpo do paciente. Cada "fatia" (slice) é uma imagem 2D, e a pilha de fatias forma o volume completo. Os valores de cada voxel são medidos em **Unidades Hounsfield (HU)** — uma escala onde o ar vale -1000 HU, a água vale 0 HU e o osso pode chegar a +1000 HU.
 
