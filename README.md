@@ -27,7 +27,7 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 
 ## Über das Projekt
 
-O projeto implementa um pipeline completo de detecção de nódulos pulmonares a partir de tomografias computadorizadas (CT scans), desde a exploração e preparação dos dados até o deploy de uma aplicação interativa com Gradio.
+Das Projekt implementiert eine vollständige Pipeline zur Erkennung von Lungenknoten anhand von Computertomografien (CT-Scans), von der Datenerfassung und -aufbereitung bis hin zur Bereitstellung einer interaktiven Anwendung mit Gradio.
 
 <p align="center">
   <img src="docs/fixed_landing_7_technical_flow_light.png" alt="Visão geral do pipeline" width="85%">
