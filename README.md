@@ -20,7 +20,7 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 - [Computertomographie](#Computertomographie)
 - [Datenpipeline](#Datenpipeline)
 - [Fortschritt](#Fortschritt)
-- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Projektstruktur](#Projektstruktur)
 - [Instalação e Configuração](#instalação-e-configuração)
 
 <br>
@@ -81,7 +81,7 @@ Der Weg der Rohdaten bis zum Eingang des neuronalen Netzes umfasst folgende Schr
 
 <br>
 
-## Estrutura do Projeto
+## Projektstruktur
 
 ```
 .
@@ -106,6 +106,30 @@ Der Weg der Rohdaten bis zum Eingang des neuronalen Netzes umfasst folgende Schr
 ├── data/                      Dataset LUNA16 (não versionado)
 ├── docs/                      Diagramas e referências
 └── pyproject.toml             Dependências e configuração
+```
+```
+
+├── notebooks/                 Jupyter-Notebooks 
+│   ├── 01_download_luna16
+│   ├── 02_explore_csv_data
+│   ├── 03_analyze_coordinates
+│   ├── 04_ct_scan_to_dataset
+│   ├── 05_model_architecture
+│   ├── 06_training
+│   ├── 07_colab_training
+│   ├── 08_model_evaluation
+│   └── 09_gradio_deploy
+├── src/                       Python-Module (generiert über %%writefile)
+│   ├── luna_data.py
+│   ├── model.py
+│   ├── training.py
+│   └── inference.py
+├── app.py                   Gradio-Anwendung (generiert über %%writefile)
+├── tests/                   Automatisierte Tests
+├── checkpoints/             Checkpoints des trainierten Modells
+├── data/                    LUNA16-Datensatz (nicht versioniert)
+├── docs/                    Diagramme und Referenzen
+└── pyproject.toml           Abhängigkeiten und Konfiguration
 ```
 
 <br>
