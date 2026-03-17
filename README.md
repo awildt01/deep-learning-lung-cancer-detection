@@ -112,33 +112,32 @@ Der Weg der Rohdaten bis zum Eingang des neuronalen Netzes umfasst folgende Schr
 
 ## Installation und Konfiguration
 
-1. Clonar o repositório para a sua máquina local:
+1. Klonen Sie das Repository auf Ihren lokalen Rechner:
 
 ```bash
 git clone https://github.com/carlosfab/bootcamp-deep-learning.git
 cd bootcamp-deep-learning
 ```
 
-2. Instalar as dependências com [UV](https://docs.astral.sh/uv/):
+2. Installieren Sie die Abhängigkeiten mit UV [UV](https://docs.astral.sh/uv/):
 
 ```bash
 uv sync
 ```
 
-3. Ativar o ambiente virtual:
+3. Aktivieren Sie die virtuelle Umgebung:
 
 ```bash
 source .venv/bin/activate
 ```
 
-4. Rodar os testes para verificar que está tudo funcionando:
+4. Führen Sie die Tests aus, um zu überprüfen, ob alles funktioniert:
 
 ```bash
 pytest tests/ -v
 ```
 
-5. O dataset LUNA16 (~111 GB) deve ser baixado separadamente. O notebook `01_download_luna16.ipynb` contém as instruções de download via API.
+5. Der Datensatz LUNA16 (~111 GB) muss separat heruntergeladen werden. Das Notebook `01_download_luna16.ipynb` enthält Anweisungen zum Herunterladen über die API.
 
 ---
 
-Projeto desenvolvido como parte do Bootcamp de Deep Learning para Visão Computacional da [STAR Research Institute](https://starresearch.institute).
