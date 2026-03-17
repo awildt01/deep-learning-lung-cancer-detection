@@ -58,12 +58,12 @@ Im Datensatz LUNA16 wird jeder CT-Scan als Paar aus einer .mhd-Datei (Metadaten)
 </p>
 <p align="center"><em>Vollständige Pipeline: von den Rohdateien bis zum für das neuronale Netz bereitgestellten Sample.</em></p>
 
-O caminho dos dados brutos até a entrada da rede neural segue estas etapas:
+Der Weg der Rohdaten bis zum Eingang des neuronalen Netzes umfasst folgende Schritte:
 
-1. **Carregar o CT scan** — leitura do `.mhd` com SimpleITK, obtendo o array 3D e os metadados (origin, spacing, direction)
-2. **Converter coordenadas** — as coordenadas XYZ (milímetros do paciente) são convertidas para índices IRC (index, row, col) do array NumPy
-3. **Extrair o crop 3D** — um patch de 32x48x48 voxels é recortado ao redor de cada candidato
-4. **Criar o sample PyTorch** — o crop vira um tensor `[1, 32, 48, 48]`, pronto para o DataLoader
+1. **CT-Scan laden** — Einlesen der `.mhd-Datei` mit SimpleITK, um das 3D-Array und die Metadaten (Origin, Spacing, Direction) zu erhalten.
+2. **Koordinaten konvertieren** — Die XYZ-Koordinaten (Millimeter des Patienten) werden in IRC-Indizes (Index, Row, Col) des NumPy-Arrays konvertiert.
+3. **3D-Ausschnitt extrahieren** — um patch de 32x48x48 voxels é recortado ao redor de cada candidato.
+4. **PyTorch-Sample erstellen** — der Ausschnitt wird zu einem Tensor `[1, 32, 48, 48]`, bereit für den DataLoader.
 
 <br>
 
