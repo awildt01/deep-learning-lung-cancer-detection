@@ -18,7 +18,7 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 
 - [Über das Projekt](#Über-das-Projekt)
 - [Computertomographie](#Computertomographie)
-- [Pipeline de Dados](#pipeline-de-dados)
+- [Datenpipeline](#Datenpipeline)
 - [Progresso](#progresso)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Instalação e Configuração](#instalação-e-configuração)
@@ -51,12 +51,12 @@ Im Datensatz LUNA16 wird jeder CT-Scan als Paar aus einer .mhd-Datei (Metadaten)
 
 <br>
 
-## Pipeline de Dados
+## Datenpipeline
 
 <p align="center">
   <img src="docs/fixed_lung_cancer_pipeline_oreilly.png" alt="Pipeline de dados" width="85%">
 </p>
-<p align="center"><em>Pipeline completo: dos arquivos brutos até o sample pronto para a rede neural.</em></p>
+<p align="center"><em>Vollständige Pipeline: von den Rohdateien bis zum für das neuronale Netz bereitgestellten Sample.</em></p>
 
 O caminho dos dados brutos até a entrada da rede neural segue estas etapas:
 
