@@ -137,7 +137,7 @@ source .venv/bin/activate
 pytest tests/ -v
 ```
 
-5. Der Datensatz LUNA16 (~111 GB) muss separat heruntergeladen werden. Das Notebook `01_download_luna16.ipynb` enthält Anweisungen zum Herunterladen über die API.
+5. Der Datensatz LUNA16 (~111 GB) muss separat heruntergeladen werden. Das Notebook `01_download_luna16.ipynb`enthält Anweisungen zum Herunterladen über die API.
 
 ---
 
