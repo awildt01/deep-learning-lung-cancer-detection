@@ -31,6 +31,7 @@
 </p>
 
 
+![C++](https://shields.io) ![Python](https://shields.io) ![TensorFlow](https://shields.io) ![PyTorch](https://shields.io) ![AWS](https://shields.io) ![GCP](https://shields.io)
 
 
 
