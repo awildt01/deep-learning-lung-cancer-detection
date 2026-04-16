@@ -11,6 +11,17 @@
   <a href="https://cloud.google.com/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/googlecloud-colored.svg" width="36" height="36" alt="Google Cloud" /></a>
 </p>
 
+<table>
+  <tr>
+    <td><a href="https://microsoft.com"><img src="https://githubusercontent.com" width="36" height="36" alt="C++"></a></td>
+    <td><a href="https://python.org"><img src="https://githubusercontent.com" width="36" height="36" alt="Python"></a></td>
+    <td><a href="https://tensorflow.org"><img src="https://githubusercontent.com" width="36" height="36" alt="TensorFlow"></a></td>
+    <td><a href="https://pytorch.org"><img src="https://githubusercontent.com" width="36" height="36" alt="PyTorch"></a></td>
+    <td><a href="https://amazon.com"><img src="https://githubusercontent.com" width="36" height="36" alt="AWS"></a></td>
+    <td><a href="https://google.com"><img src="https://githubusercontent.com" width="36" height="36" alt="Google Cloud"></a></td>
+  </tr>
+</table>
+
 
 
 
