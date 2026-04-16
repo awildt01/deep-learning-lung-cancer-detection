@@ -30,9 +30,6 @@
 
 
 
-
-
-
 Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomographien unter Verwendung des LUNA16-Datensatzes [LUNA16](https://luna16.grand-challenge.org/)  und PyTorch.
 
 ![Banner](docs/fixed_cnn_lung_tumor_detection.png)
