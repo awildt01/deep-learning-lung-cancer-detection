@@ -2,33 +2,16 @@
 # Deep Learning Lung Cancer Detection
 
 
-<table border="0">
-  <tr>
-    <td>
-      <a href="https://isocpp.org"><img src="https://githubusercontent.com" width="40" height="40" alt="C++" /></a>
-    </td>
-    <td>
-      <a href="https://python.org"><img src="https://githubusercontent.com" width="40" height="40" alt="Python" /></a>
-    </td>
-    <td>
-      <a href="https://tensorflow.org"><img src="https://githubusercontent.com" width="40" height="40" alt="TF" /></a>
-    </td>
-    <td>
-      <a href="https://pytorch.org"><img src="https://githubusercontent.com" width="40" height="40" alt="PyTorch" /></a>
-    </td>
-    <td>
-      <a href="https://amazon.com"><img src="https://githubusercontent.com" width="40" height="40" alt="AWS" /></a>
-    </td>
-    <td>
-      <a href="https://google.com"><img src="https://githubusercontent.com" width="40" height="40" alt="GCP" /></a>
-    </td>
-  </tr>
-</table>
-
 
 <p align="left">
-  <img src="https://skillicons.dev" alt="My Skills" />
+  <img src="https://githubusercontent.com" width="40" alt="C++" />
+  <img src="https://githubusercontent.com" width="40" alt="Python" />
+  <img src="https://githubusercontent.com" width="40" alt="TensorFlow" />
+  <img src="https://githubusercontent.com" width="40" alt="PyTorch" />
+  <img src="https://githubusercontent.com" width="40" alt="AWS" />
+  <img src="https://githubusercontent.com" width="40" alt="GCP" />
 </p>
+
 
 
 ![C++](https://shields.io) ![Python](https://shields.io) ![TensorFlow](https://shields.io) ![PyTorch](https://shields.io) ![AWS](https://shields.io) ![GCP](https://shields.io)
