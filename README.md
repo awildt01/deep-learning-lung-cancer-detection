@@ -3,16 +3,33 @@
 
 <br>
 
-<table>
-  <tr>
-    <td><a href="https://microsoft.com"><img src="https://githubusercontent.com" width="36" height="36" alt="C++"></a></td>
-    <td><a href="https://python.org"><img src="https://githubusercontent.com" width="36" height="36" alt="Python"></a></td>
-    <td><a href="https://tensorflow.org"><img src="https://githubusercontent.com" width="36" height="36" alt="TensorFlow"></a></td>
-    <td><a href="https://pytorch.org"><img src="https://githubusercontent.com" width="36" height="36" alt="PyTorch"></a></td>
-    <td><a href="https://amazon.com"><img src="https://githubusercontent.com" width="36" height="36" alt="AWS"></a></td>
-    <td><a href="https://google.com"><img src="https://githubusercontent.com" width="36" height="36" alt="Google Cloud"></a></td>
-  </tr>
-</table>
+<p align="left">
+  <!-- C++ -->
+  <a href="https://isocpp.org" target="_blank" rel="noreferrer">
+    <img src="https://jsdelivr.net" width="40" height="40" alt="C++" />
+  </a>
+  <!-- Python -->
+  <a href="https://python.org" target="_blank" rel="noreferrer">
+    <img src="https://jsdelivr.net" width="40" height="40" alt="Python" />
+  </a>
+  <!-- TensorFlow -->
+  <a href="https://tensorflow.org" target="_blank" rel="noreferrer">
+    <img src="https://jsdelivr.net" width="40" height="40" alt="TensorFlow" />
+  </a>
+  <!-- PyTorch -->
+  <a href="https://pytorch.org" target="_blank" rel="noreferrer">
+    <img src="https://jsdelivr.net" width="40" height="40" alt="PyTorch" />
+  </a>
+  <!-- AWS -->
+  <a href="https://amazon.com" target="_blank" rel="noreferrer">
+    <img src="https://jsdelivr.net" width="40" height="40" alt="AWS" />
+  </a>
+  <!-- Google Cloud -->
+  <a href="https://google.com" target="_blank" rel="noreferrer">
+    <img src="https://jsdelivr.net" width="40" height="40" alt="Google Cloud" />
+  </a>
+</p>
+
 
 
 
