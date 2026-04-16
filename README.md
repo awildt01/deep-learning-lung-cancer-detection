@@ -2,32 +2,34 @@
 # Deep Learning Lung Cancer Detection
 
 
+<table border="0">
+  <tr>
+    <td>
+      <a href="https://isocpp.org"><img src="https://githubusercontent.com" width="40" height="40" alt="C++" /></a>
+    </td>
+    <td>
+      <a href="https://python.org"><img src="https://githubusercontent.com" width="40" height="40" alt="Python" /></a>
+    </td>
+    <td>
+      <a href="https://tensorflow.org"><img src="https://githubusercontent.com" width="40" height="40" alt="TF" /></a>
+    </td>
+    <td>
+      <a href="https://pytorch.org"><img src="https://githubusercontent.com" width="40" height="40" alt="PyTorch" /></a>
+    </td>
+    <td>
+      <a href="https://amazon.com"><img src="https://githubusercontent.com" width="40" height="40" alt="AWS" /></a>
+    </td>
+    <td>
+      <a href="https://google.com"><img src="https://githubusercontent.com" width="40" height="40" alt="GCP" /></a>
+    </td>
+  </tr>
+</table>
+
+
 <p align="left">
-  <!-- C++ -->
-  <a href="https://isocpp.org" target="_blank" rel="noreferrer">
-    <img src="https://jsdelivr.net" width="40" height="40" alt="C++" />
-  </a>
-  <!-- Python -->
-  <a href="https://python.org" target="_blank" rel="noreferrer">
-    <img src="https://jsdelivr.net" width="40" height="40" alt="Python" />
-  </a>
-  <!-- TensorFlow -->
-  <a href="https://tensorflow.org" target="_blank" rel="noreferrer">
-    <img src="https://jsdelivr.net" width="40" height="40" alt="TensorFlow" />
-  </a>
-  <!-- PyTorch -->
-  <a href="https://pytorch.org" target="_blank" rel="noreferrer">
-    <img src="https://jsdelivr.net" width="40" height="40" alt="PyTorch" />
-  </a>
-  <!-- AWS -->
-  <a href="https://amazon.com" target="_blank" rel="noreferrer">
-    <img src="https://jsdelivr.net" width="40" height="40" alt="AWS" />
-  </a>
-  <!-- Google Cloud -->
-  <a href="https://google.com" target="_blank" rel="noreferrer">
-    <img src="https://jsdelivr.net" width="40" height="40" alt="Google Cloud" />
-  </a>
+  <img src="https://skillicons.dev" alt="My Skills" />
 </p>
+
 
 
 
