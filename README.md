@@ -1,7 +1,6 @@
 
 # Deep Learning Lung Cancer Detection
 
-<br>
 
 <p align="left">
   <!-- C++ -->
