@@ -1,0 +1,23 @@
+# Mac OS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Environment
+.env
+.venv
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Project Data
+data/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter Notebook
+.ipynb_checkpoints
