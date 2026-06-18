@@ -92,7 +92,30 @@ Im Gegensatz zu gewöhnlichen Bildern (bei denen Pixelwerte willkürlich sind) h
 </p>
 <p align="center"><em>>Pixelwerte in Hounsfield-Einheiten (HU)<</em></p>
 
+<br>
 
+## Räumliche Metadaten: Spacing und Origin
+
+Neben den Voxeln enthält ein CT-Scan räumliche Metadaten, die das Array mit der physikalischen Welt verknüpfen:
+
+```python
+spacing = ct_sitk.GetSpacing()
+origin = ct_sitk.GetOrigin()
+
+print(f"Spacing (x, y, z): {spacing} mm")
+print(f"Origin: {origin}")
+```
+
+Ausgabe:
+```text
+spacing (x, y, z): (0.742, 0.742, 2.5) mm
+Origin: (-182.5, -190.0, -313.75)
+```
+
+
+Der Abstand (spacing) gibt den physikalischen Abstand in Millimetern zwischen aufeinanderfolgenden Voxeln an. In diesem Fall misst jedes Pixel innerhalb einer Schicht 0,742 mm, der Abstand zwischen den Schichten beträgt jedoch 2,5 mm. Das bedeutet, dass das Volumen anisotrop ist: Die Auflösung ist nicht in allen Richtungen gleichmäßig.
+
+Der Ursprung (origin) gibt die Position des ersten Voxels im Koordinatensystem des Patienten an. Er ist unerlässlich für die Umrechnung zwischen Array-Indizes und tatsächlichen Koordinaten in Millimetern.
 
 <br>
 
