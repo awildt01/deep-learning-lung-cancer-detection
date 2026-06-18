@@ -20,6 +20,8 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 
 - [Über das Projekt](#Über-das-Projekt)
 - [Computertomographie](#Computertomographie)
+  - [Was ist eine 3D-Tomographie?](#was-ist-eine-3d-tomographie)
+  - [Räumliche Metadaten: Spacing und Origin](#räumliche-metadaten-spacing-und-origin)
 - [Datenpipeline](#Datenpipeline)
 - [Fortschritt](#Fortschritt)
 - [Projektstruktur](#Projektstruktur)
@@ -90,7 +92,7 @@ Im Gegensatz zu gewöhnlichen Bildern (bei denen Pixelwerte willkürlich sind) h
 <p align="center">
   <img src="docs/01_Pixelwerte.png" alt="Pixelwerte" width="85%">
 </p>
-<p align="center"><em>>Pixelwerte in Hounsfield-Einheiten (HU)<</em></p>
+<p align="center"><em>Pixelwerte in Hounsfield-Einheiten (HU)</em></p>
 
 <br>
 
