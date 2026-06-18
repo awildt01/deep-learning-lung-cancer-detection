@@ -16,7 +16,7 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 
 <br>
 
-## Sumário
+## Inhaltsverzeichnis
 
 - [Über das Projekt](#Über-das-Projekt)
 - [Computertomographie](#Computertomographie)
@@ -32,7 +32,7 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 Das Projekt implementiert eine vollständige Pipeline zur Erkennung von Lungenknoten anhand von Computertomografien (CT-Scans), von der Datenerfassung und -aufbereitung bis hin zur Bereitstellung einer interaktiven Anwendung mit Gradio.
 
 <p align="center">
-  <img src="docs/fixed_landing_7_technical_flow_light.png" alt="Visão geral do pipeline" width="85%">
+  <img src="docs/fixed_landing_7_technical_flow_light.png" alt="Übersicht über die Pipeline" width="85%">
 </p>
 <p align="center"><em>Übersicht über die Pipeline – vom rohen CT-Scan bis zur Klassifizierung durch ein 3D-CNN.</em></p>
 
@@ -43,7 +43,7 @@ Der Ansatz nutzt vorberechnete Kandidaten, die vom LUNA16-Wettbewerb bereitgeste
 ## Computertomographie
 
 <p align="center">
-  <img src="docs/fixed_ct_slices_concept.png" alt="Slices de uma tomografia computadorizada" width="85%">
+  <img src="docs/fixed_ct_slices_concept.png" alt="Slices einer Computertomographie" width="85%">
 </p>
 <p align="center"><em>Ein CT-Scan besteht aus Hunderten von übereinandergestapelten axialen Schichten, die ein 3D-Volumen bilden.</em></p>
 
@@ -56,7 +56,7 @@ Im Datensatz LUNA16 wird jeder CT-Scan als Paar aus einer .mhd-Datei (Metadaten)
 ## Datenpipeline
 
 <p align="center">
-  <img src="docs/fixed_lung_cancer_pipeline_oreilly.png" alt="Pipeline de dados" width="85%">
+  <img src="docs/fixed_lung_cancer_pipeline_oreilly.png" alt="Datenpipeline" width="85%">
 </p>
 <p align="center"><em>Vollständige Pipeline: von den Rohdateien bis zum für das neuronale Netz bereitgestellten Sample.</em></p>
 
@@ -64,8 +64,35 @@ Der Weg der Rohdaten bis zum Eingang des neuronalen Netzes umfasst folgende Schr
 
 1. **CT-Scan laden** — Einlesen der `.mhd-Datei` mit SimpleITK, um das 3D-Array und die Metadaten (Origin, Spacing, Direction) zu erhalten.
 2. **Koordinaten konvertieren** — Die XYZ-Koordinaten (Millimeter des Patienten) werden in IRC-Indizes (Index, Row, Col) des NumPy-Arrays konvertiert.
-3. **3D-Ausschnitt extrahieren** — um patch de 32x48x48 voxels é recortado ao redor de cada candidato.
+3. **3D-Ausschnitt extrahieren** — ein Ausschnitt (Patch) von 32x48x48 Voxeln wird um jeden Kandidaten herum ausgeschnitten.
 4. **PyTorch-Sample erstellen** — der Ausschnitt wird zu einem Tensor `[1, 32, 48, 48]`, bereit für den DataLoader.
+
+<br>
+
+Ein CT-Scan ist im Wesentlichen ein dreidimensionales Array, in dem jedes Voxel die Röntgenstrahlabschwächung in Hounsfield-Einheiten quantifiziert. Diese standardisierte numerische Darstellung ermöglicht es, anatomische Strukturen zu segmentieren, neuronale Netze zur Erkennung von Läsionen zu trainieren und reproduzierbare Analyse-Pipelines zu erstellen – alles auf der Grundlage von Operationen mit NumPy-Arrays. 
+
+## Was ist eine 3D-Tomographie?
+
+Eine Computertomographie (CT-Scan) ist eine Untersuchung, die ein 3D-Volumen des Körperinneren erzeugt. Das Gerät sendet Röntgenstrahlen aus verschiedenen Winkeln aus und rekonstruiert eine Reihe von Querschnitten des Patienten.
+
+In der Praxis ist jeder CT-Scan, den Sie in Python bearbeiten werden, ein dreidimensionales NumPy-Array. Jede Position in diesem Array ist ein Voxel (das 3D-Äquivalent eines Pixels), und der gespeicherte numerische Wert wird in Hounsfield-Einheiten (HU) gemessen, einer standardisierten physikalischen Skala:
+
+- Luft: −1000 HU
+- Fett: −120 bis −60 HU
+- Wasser: 0 HU
+- Weichgewebe (Muskeln, Organe): +40 bis +80 HU
+- Aufgeblähte Lunge: −950 bis −500 HU
+- Kompakter Knochen: +1000 HU oder mehr
+
+Im Gegensatz zu gewöhnlichen Bildern (bei denen Pixelwerte willkürlich sind) hat bei einem CT-Scan jede Zahl eine physikalische Bedeutung. Diese Eigenschaft ermöglicht es, anatomische Strukturen durch einfache Schwellenwertoperationen herauszufiltern.
+
+
+<p align="center">
+  <img src="docs/01_Pixelwerte.png" alt="Pixelwerte" width="85%">
+</p>
+<p align="center"><em>>Pixelwerte in Hounsfield-Einheiten (HU)<</em></p>
+
+
 
 <br>
 
@@ -82,6 +109,8 @@ Der Weg der Rohdaten bis zum Eingang des neuronalen Netzes umfasst folgende Schr
 - [x] Bereitstellung mit Gradio
 
 <br>
+
+
 
 ## Projektstruktur
 

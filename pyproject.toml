@@ -18,8 +18,8 @@ dependencies = [
     "scikit-image>=0.26.0",
     "scikit-learn>=1.8.0",
     "simpleitk>=2.5.3",
-    "torch>=2.0,<2.10",
-    "torchaudio>=2.2.2",
-    "torchvision>=0.17.2",
+    "torch>=2.2,<2.6",
+    "torchaudio>=2.2,<2.6",
+    "torchvision>=0.17,<0.21",
     "tqdm>=4.67.2"
 ]
