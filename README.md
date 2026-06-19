@@ -142,8 +142,22 @@ plt.show()
 <p align="center"><em>Pixelwerte in Hounsfield-Einheiten (HU)</em></p>
 
 
-Anzeigen von Schnitten des Volumens
+## Anzeigen von Schnitten des Volumens
 Die einfachste Möglichkeit, einen CT-Scan anzuzeigen, besteht darin, einzelne Schnitte mit matplotlib darzustellen. Da jeder Schnitt ein 2D-Array ist, genügt es, die erste Achse zu indizieren:
+
+```python
+# 5 Schichten anzeigen, die über das gesamte Volumen verteilt sind
+n_Schichten = ct_array.shape[0]
+indices = [0, n_Schichten // 4, n_Schichten // 2, 3 * n_Schichten // 4, n_Schichten - 1]
+fig, axes = plt.subplots(1, 5, figsize=(18, 4))
+for ax, idx in zip(axes, indices):
+    ax.imshow(ct_array[idx], cmap="gray")
+    ax.set_title(f"Schichten {idx}")
+    ax.axis("off")
+plt.tight_layout()
+plt.show()
+```
+
 
 <p align="center">
   <img src="docs/03_Schichten.png" alt="schichten" width="85%">
