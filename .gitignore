@@ -21,3 +21,7 @@ __pycache__/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+# Scratch scripts
+scratch/
+

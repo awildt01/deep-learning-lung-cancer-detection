@@ -121,6 +121,29 @@ Der Ursprung (origin) gibt die Position des ersten Voxels im Koordinatensystem d
 
 <br>
 
+## Anzeigen von Schnitten des Volumens
+
+Die einfachste Möglichkeit, einen CT-Scan anzuzeigen, besteht darin, einzelne Schnitte mit matplotlib darzustellen. Da jeder Schnitt ein 2D-Array ist, genügt es, die erste Achse zu indizieren:
+
+
+<p align="center">
+  <img src="docs/02_Volume.png" alt="volum" width="85%">
+</p>
+<p align="center"><em>Pixelwerte in Hounsfield-Einheiten (HU)</em></p>
+
+
+Anzeigen von Schnitten des Volumens
+Die einfachste Möglichkeit, einen CT-Scan anzuzeigen, besteht darin, einzelne Schnitte mit matplotlib darzustellen. Da jeder Schnitt ein 2D-Array ist, genügt es, die erste Achse zu indizieren:
+
+<p align="center">
+  <img src="docs/03_Schichten.png" alt="schichten" width="85%">
+</p>
+<p align="center"><em>Pixelwerte in Hounsfield-Einheiten (HU)</em></p>
+
+
+
+<br>
+
 ## Fortschritt
 
 - [x] Herunterladen und Aufbereiten des LUNA16-Datensatzes
