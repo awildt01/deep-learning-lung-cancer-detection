@@ -126,8 +126,18 @@ Der Ursprung (origin) gibt die Position des ersten Voxels im Koordinatensystem d
 Die einfachste Möglichkeit, einen CT-Scan anzuzeigen, besteht darin, einzelne Schnitte mit matplotlib darzustellen. Da jeder Schnitt ein 2D-Array ist, genügt es, die erste Achse zu indizieren:
 
 
+```python
+# erste Schnitt
+Scheibe  = ct_array[0]
+plt.imshow(Scheibe , cmap="gray")
+plt.axis("off")
+plt.show()
+```
+
+
+
 <p align="center">
-  <img src="docs/02_Volume.png" alt="volum" width="85%">
+  <img src="docs/02_Volume.png" alt="volum" width="50%">
 </p>
 <p align="center"><em>Pixelwerte in Hounsfield-Einheiten (HU)</em></p>
 
