@@ -127,7 +127,7 @@ Die einfachste Möglichkeit, einen CT-Scan anzuzeigen, besteht darin, einzelne S
 
 
 <p align="center">
-  <img src="docs/02_Volume.png" alt="volum" width="85%">
+  <img src="docs/02_Volume.png" alt="volum" width="60%">
 </p>
 <p align="center"><em>Pixelwerte in Hounsfield-Einheiten (HU)</em></p>
 
