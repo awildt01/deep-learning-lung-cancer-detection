@@ -22,6 +22,8 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 - [Computertomographie](#Computertomographie)
   - [Was ist eine 3D-Tomographie?](#was-ist-eine-3d-tomographie)
   - [Räumliche Metadaten: Spacing und Origin](#räumliche-metadaten-spacing-und-origin)
+  - [Anzeigen von Schnitten des Volumens](#anzeigen-von-schnitten-des-volumens)
+  - [Fensterung (Windowing)](#fensterung-windowing)
 - [Datenpipeline](#Datenpipeline)
 - [Fortschritt](#Fortschritt)
 - [Projektstruktur](#Projektstruktur)
@@ -123,48 +125,127 @@ Der Ursprung (origin) gibt die Position des ersten Voxels im Koordinatensystem d
 
 ## Anzeigen von Schnitten des Volumens
 
-Die einfachste Möglichkeit, einen CT-Scan anzuzeigen, besteht darin, einzelne Schnitte mit matplotlib darzustellen. Da jeder Schnitt ein 2D-Array ist, genügt es, die erste Achse zu indizieren:
-
+Die einfachste Möglichkeit, einen CT-Scan anzuzeigen, besteht darin, einzelne Schnitte mit Matplotlib darzustellen. Da jeder Schnitt ein 2D-Array ist, genügt es, die erste Achse zu indizieren:
 
 ```python
-# erste Schnitt
-Scheibe  = ct_array[0]
-plt.imshow(Scheibe , cmap="gray")
+# Einzelnen Schnitt anzeigen
+schicht = ct_array[ct_array.shape[0] // 2]
+plt.imshow(schicht, cmap="gray")
 plt.axis("off")
 plt.show()
 ```
 
-
-
 <p align="center">
-  <img src="docs/02_Volume.png" alt="volum" width="50%">
+  <img src="docs/02_Volume.png" alt="Schnitt des Volumens" width="50%">
 </p>
-<p align="center"><em>Pixelwerte in Hounsfield-Einheiten (HU)</em></p>
+<p align="center"><em>Visualisierung einer einzelnen Schicht</em></p>
 
-
-## Anzeigen von Schnitten des Volumens
-Die einfachste Möglichkeit, einen CT-Scan anzuzeigen, besteht darin, einzelne Schnitte mit matplotlib darzustellen. Da jeder Schnitt ein 2D-Array ist, genügt es, die erste Achse zu indizieren:
+Alternativ können mehrere über das Volumen verteilte Schnitte gleichzeitig visualisiert werden, um einen schnellen Überblick zu erhalten:
 
 ```python
-# 5 Schichten anzeigen, die über das gesamte Volumen verteilt sind
-n_Schichten = ct_array.shape[0]
-indices = [0, n_Schichten // 4, n_Schichten // 2, 3 * n_Schichten // 4, n_Schichten - 1]
+# 5 Schichten über das Volumen verteilt anzeigen
+n_schichten = ct_array.shape[0]
+indices = [0, n_schichten // 4, n_schichten // 2, 3 * n_schichten // 4, n_schichten - 1]
 fig, axes = plt.subplots(1, 5, figsize=(18, 4))
 for ax, idx in zip(axes, indices):
     ax.imshow(ct_array[idx], cmap="gray")
-    ax.set_title(f"Schichten {idx}")
+    ax.set_title(f"Schicht {idx}")
     ax.axis("off")
 plt.tight_layout()
 plt.show()
 ```
 
+<p align="center">
+  <img src="docs/03_Schichten.png" alt="Fünf verteilte Schichten" width="85%">
+</p>
+<p align="center"><em>Visualisierung mehrerer Schichten über das gesamte Volumen hinweg</em></p>
+
+<br>
+
+## Fensterung (Windowing): Kontrastoptimierung für medizinische Bilddaten
+
+Ein entscheidender Unterschied zwischen der reinen Anzeige eines Bildes und dem tiefen Verständnis medizinischer Bilddaten liegt in der **Fensterung (Windowing)**.
+
+### Das biologische und physikalische Problem
+Ein moderner CT-Scan besitzt einen enormen Dynamikbereich (meist 12-Bit-Darstellung). Im LUNA16-Datensatz reichen die Voxelwerte von **$-2048$ bis $+3071$ Hounsfield-Einheiten (HU)**. Der exakte Bereich hängt von den DICOM-Metadaten (`Rescale Intercept` und `Rescale Slope`) ab.
+
+Daraus ergibt sich ein doppeltes Problem:
+1. **Das physikalische Datenvolumen:** Ein CT-Scan deckt eine Spanne von über 4.000 HU ab.
+2. **Die biologische Grenze:** Das menschliche Auge kann auf einem Monitor nur etwa **60 bis 80 Graustufen** gleichzeitig differenzieren.
+
+Würde man den gesamten Wertebereich linear auf eine Grauskala abbilden, wären Gewebestrukturen mit ähnlicher Dichte (z. B. gesundes Hirngewebe und ein Blutgerinnsel, die sich nur um wenige HU unterscheiden) ununterscheidbar. Das Bild wäre ein kontrastarmer, grauer Einheitsbrei.
+
+### Die Lösung: Kontrastspreizung durch Level (L) und Width (W)
+Die Fensterung fungiert wie eine **Lupe für Kontraste**. Sie wählt einen relevanten HU-Teilbereich aus und streckt diesen linear auf die volle Graustufenskala des Monitors. Gesteuert wird dies über zwei Parameter:
+* **Window Level (Zentrum / $L$):** Bestimmt den Mittelpunkt des HU-Bereichs, den man untersuchen möchte. Dieser HU-Wert wird als mittleres Grau dargestellt.
+* **Window Width (Breite / $W$):** Bestimmt die Breite des HU-Fensters. Ein schmales Fenster erhöht den Kontrast im Zielbereich drastisch; ein breites Fenster zeigt mehr unterschiedliche Gewebearten gleichzeitig, jedoch mit weniger Kontrast.
+
+Die mathematische Abbildung auf dem Monitor berechnet sich wie folgt:
+
+$$\text{Untergrenze} = L - \frac{W}{2} \quad \implies \text{Alles unter dieser Grenze wird rein schwarz dargestellt.}$$
+$$\text{Obergrenze} = L + \frac{W}{2} \quad \implies \text{Alles über dieser Grenze wird rein weiß dargestellt.}$$
+
+Der Wertebereich dazwischen wird linear auf die Graustufen des Monitors $[0, 255]$ skaliert.
+
+### Standardfenster in der klinischen Praxis
+Je nach diagnostischer Fragestellung schalten Radiologen zwischen verschiedenen Fenstereinstellungen um:
+
+| Fenstername | Zentrum ($L$) | Breite ($W$) | Hauptziel |
+| :--- | :---: | :---: | :--- |
+| **Lungenfenster** | $-600\text{ HU}$ | $1600\text{ HU}$ | Feinste Strukturen der Lungenbläschen (Alveolen) und Lungengefäße. |
+| **Weichteilfenster** (Mediastinum) | $+50\text{ HU}$ | $350\text{ HU}$ | Abgrenzung von Organen und Weichteilgewebe (Herz, Leber, Gefäße). |
+| **Knochenfenster** | $+300\text{ HU}$ | $2000\text{ HU}$ | Visualisierung von Frakturen und der inneren Knochenstruktur (Spongiosa). |
+| **Hirnfenster** | $+35\text{ HU}$ | $80\text{ HU}$ | Extrem schmal, um feinste Dichteunterschiede (z.B. frische Blutungen) im Gehirn zu erkennen. |
+
+### Klinisches Beispiel: Ein Brustkorb-Schnitt (Thorax), zwei Welten
+Betrachten wir eine CT-Schicht des Brustkorbs mit Herz, Lunge, Muskeln und Rippen:
+1. **Im Weichteilfenster ($L$: $+50$, $W$: $350$):**
+   * Der sichtbare Bereich liegt bei $[-125\text{ HU}, +225\text{ HU}]$.
+   * Organe und Muskeln liegen im Zentrum und zeigen feine Kontraste (z. B. Herzgewebe vs. Blutgefäße).
+   * Knochen ($> +400\text{ HU}$) überschreiten die Obergrenze und erscheinen als strukturloses, grelles Weiß.
+   * Das Lungengewebe ($\approx -700\text{ HU}$) unterschreitet die Untergrenze und erscheint komplett schwarz.
+2. **Im Knochenfenster ($L$: $+300$, $W$: $2000$):**
+   * Der sichtbare Bereich liegt bei $[-700\text{ HU}, +1300\text{ HU}]$.
+   * Knochen liegen perfekt im Sichtfeld. Details wie die harte Außenschale (Kompakta) und das schwammartige Innenleben (Spongiosa) werden sichtbar.
+   * Weichgewebe verschwimmt am unteren Ende der Skala zu einem einheitlich dunklen Graubrei.
+
+### Implementierung in Python
+Der folgende Python-Code zeigt, wie die Fensterung mit NumPy implementiert und Matplotlib zur Visualisierung genutzt wird. Während Matplotlib Werte bei `imshow` automatisch auf die Grauskala normiert, ist in einer Deep-Learning-Produktionspipeline eine explizite Normalisierung auf $[0, 1]$ oder $[0, 255]$ vor der Modelleingabe unerlässlich.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+def apply_window(img, center, width):
+    """Wendet eine Fensterung (Windowing) auf ein CT-Scan-Bild an."""
+    lower = center - width // 2
+    upper = center + width // 2
+    return np.clip(img, lower, upper)
+
+# Beispiel zur Visualisierung des Effekts auf derselben Schicht
+half_slice = ct_array[ct_array.shape[0] // 2]
+
+slice_views = {
+    "Lungenfenster (C:-600, W:1600)": (-600, 1600),
+    "Mediastinalfenster (C:50, W:350)": (50, 350),
+    "Knochenfenster (C:300, W:2000)": (300, 2000),
+}
+
+fig, axes = plt.subplots(1, 3, figsize=(14, 5))
+for ax, (name, (center, width)) in zip(axes, slice_views.items()):
+    img = apply_window(half_slice, center, width)
+    ax.imshow(img, cmap="gray")
+    ax.set_title(name)
+    ax.axis("off")
+
+plt.tight_layout()
+plt.show()
+```
 
 <p align="center">
-  <img src="docs/03_Schichten.png" alt="schichten" width="85%">
+  <img src="docs/04_fenster.png" alt="Windowing-Effekt auf CT-Schnitt" width="85%">
 </p>
-<p align="center"><em>Pixelwerte in Hounsfield-Einheiten (HU)</em></p>
-
-
+<p align="center"><em>Derselbe CT-Schnitt unter Anwendung dreier unterschiedlicher Fensterungen.</em></p>
 
 <br>
 
