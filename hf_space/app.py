@@ -30,11 +30,13 @@ def load_model():
 MODEL = load_model()
 
 # ---------------------------------------------------------------------------
-# Demo-Patches (vorgespeicherte synthetische Beispiele)
+# Demo-Patches mit realistischen Hounsfield-Einheiten (HU)
+# Lunge: ca. -700 HU | Knoten (Weichteil): ca. +30 HU
 # ---------------------------------------------------------------------------
 rng = np.random.default_rng(42)
 
-DEMO_NODULE = rng.normal(loc=200, scale=80, size=(32, 48, 48)).astype(np.float32)
+# Knoten-Patch: Lungengewebe als Hintergrund + kugelförmiger Weichteil-Knoten
+DEMO_NODULE = rng.normal(loc=-700, scale=60, size=(32, 48, 48)).astype(np.float32)
 sphere_center = (16, 24, 24)
 for i in range(32):
     for j in range(48):
@@ -42,10 +44,11 @@ for i in range(32):
             d = np.sqrt((i - sphere_center[0])**2 +
                         (j - sphere_center[1])**2 +
                         (k - sphere_center[2])**2)
-            if d < 8:
-                DEMO_NODULE[i, j, k] = rng.normal(600, 50)
+            if d < 6:
+                DEMO_NODULE[i, j, k] = rng.normal(30, 20)
 
-DEMO_NON_NODULE = rng.normal(loc=-400, scale=200, size=(32, 48, 48)).astype(np.float32)
+# Nicht-Knoten-Patch: reines Lungengewebe, kein Weichteilelement
+DEMO_NON_NODULE = rng.normal(loc=-720, scale=80, size=(32, 48, 48)).astype(np.float32)
 
 
 def predict_patch(patch_array: np.ndarray):
