@@ -150,8 +150,8 @@ def classify_demo(demo_choice, threshold):
 
 | Metrik | Wert |
 |--------|------|
-| **Wahrscheinlichkeit** | `{prob * 100:.2f}%` |
-| **Threshold** | `{threshold:.2f}` |
+| **Wahrscheinlichkeit** | **{prob * 100:.2f}%** |
+| **Threshold** | {threshold:.2f} |
 | **Ergebnis** | {"Knoten ⚠️" if is_nodule else "Kein Knoten ✅"} |
 
 > *Synthetischer Demo-Patch — für klinischen Einsatz echte LUNA16-Daten verwenden.*
@@ -182,8 +182,8 @@ def classify_npy(npy_file, threshold):
 
 | Metrik | Wert |
 |--------|------|
-| **Wahrscheinlichkeit** | `{prob * 100:.2f}%` |
-| **Threshold** | `{threshold:.2f}` |
+| **Wahrscheinlichkeit** | **{prob * 100:.2f}%** |
+| **Threshold** | {threshold:.2f} |
 | **Ergebnis** | {"Knoten ⚠️" if is_nodule else "Kein Knoten ✅"} |
 """
     img = visualize_patch(patch, prob, threshold)
@@ -199,53 +199,121 @@ css = """
 .gradio-container { max-width: 980px !important; margin: auto !important; }
 h1 { font-size: 2rem !important; font-weight: 800 !important; }
 footer { display: none !important; }
+
+/* --- DARK MODE ONLY (applied when html has .dark) --- */
+.dark .prose code, .dark .markdown-body code, .dark table code, .dark td code {
+    background-color: #1e3a5f !important;
+    color: #f8fafc !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+}
+.dark .prose table td, .dark .prose table th {
+    color: #e2e8f0 !important;
+    border-color: #334155 !important;
+}
+
+/* --- LIGHT MODE ONLY (applied when html does NOT have .dark) --- */
+html:not(.dark) .prose code, html:not(.dark) .markdown-body code, html:not(.dark) table code, html:not(.dark) td code {
+    background-color: #e2e8f0 !important;
+    color: #0f172a !important;
+    padding: 2px 8px !important;
+    border-radius: 4px !important;
+    font-weight: 600 !important;
+}
+html:not(.dark) .prose table td, html:not(.dark) .prose table th {
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+}
 """
 
-dark_theme = gr.themes.Base(
+app_theme = gr.themes.Base(
     primary_hue="orange",
     secondary_hue="sky",
     neutral_hue="slate",
     font=gr.themes.GoogleFont("Inter"),
     text_size=gr.themes.sizes.text_md,
 ).set(
+    # --- LIGHT MODE VALUES ---
     # Hintergründe
-    body_background_fill="#0f172a",
-    background_fill_primary="#1e293b",
-    background_fill_secondary="#0f172a",
+    body_background_fill="#f8fafc",
+    background_fill_primary="#ffffff",
+    background_fill_secondary="#f1f5f9",
     # Text
-    body_text_color="#e2e8f0",
-    body_text_color_subdued="#94a3b8",
-    block_label_text_color="#94a3b8",
-    block_title_text_color="#f1f5f9",
+    body_text_color="#0f172a",
+    body_text_color_subdued="#475569",
+    block_label_text_color="#475569",
+    block_title_text_color="#0f172a",
     # Inputs & Borders
-    input_background_fill="#0f172a",
-    input_background_fill_focus="#0f172a",
-    input_border_color="#334155",
+    input_background_fill="#ffffff",
+    input_background_fill_focus="#ffffff",
+    input_border_color="#cbd5e1",
     input_border_color_focus="#f97316",
-    input_placeholder_color="#64748b",
+    input_placeholder_color="#94a3b8",
     # Blocks
     border_color_accent="#f97316",
-    border_color_primary="#334155",
+    border_color_primary="#cbd5e1",
     # Checkboxes / Radio
-    checkbox_background_color="#1e293b",
+    checkbox_background_color="#ffffff",
     checkbox_background_color_selected="#f97316",
-    checkbox_border_color="#475569",
+    checkbox_border_color="#cbd5e1",
     checkbox_border_color_selected="#f97316",
-    checkbox_label_background_fill="#1e293b",
-    checkbox_label_background_fill_hover="#334155",
-    checkbox_label_background_fill_selected="#1e3a5f",
-    checkbox_label_text_color="#e2e8f0",
-    checkbox_label_text_color_selected="#f8fafc",
+    checkbox_label_background_fill="#f1f5f9",
+    checkbox_label_background_fill_hover="#e2e8f0",
+    checkbox_label_background_fill_selected="#e0f2fe",
+    checkbox_label_text_color="#0f172a",
+    checkbox_label_text_color_selected="#0369a1",
     # Tabs
     color_accent="#f97316",
-    color_accent_soft="#431407",
+    color_accent_soft="#ffedd5",
     # Table
-    table_even_background_fill="#1e293b",
-    table_odd_background_fill="#162032",
-    table_border_color="#334155",
-    table_row_focus="#334155",
+    table_even_background_fill="#ffffff",
+    table_odd_background_fill="#f8fafc",
+    table_border_color="#e2e8f0",
+    table_row_focus="#f1f5f9",
     # Slider
     slider_color="#f97316",
+
+    # --- DARK MODE VALUES ---
+    # Hintergründe
+    body_background_fill_dark="#0f172a",
+    background_fill_primary_dark="#1e293b",
+    background_fill_secondary_dark="#0f172a",
+    # Text
+    body_text_color_dark="#e2e8f0",
+    body_text_color_subdued_dark="#94a3b8",
+    block_label_text_color_dark="#94a3b8",
+    block_title_text_color_dark="#f1f5f9",
+    # Inputs & Borders
+    input_background_fill_dark="#0f172a",
+    input_background_fill_focus_dark="#0f172a",
+    input_border_color_dark="#334155",
+    input_border_color_focus_dark="#f97316",
+    input_placeholder_color_dark="#64748b",
+    # Blocks
+    border_color_accent_dark="#f97316",
+    border_color_primary_dark="#334155",
+    # Checkboxes / Radio
+    checkbox_background_color_dark="#1e293b",
+    checkbox_background_color_selected_dark="#f97316",
+    checkbox_border_color_dark="#475569",
+    checkbox_border_color_selected_dark="#f97316",
+    checkbox_label_background_fill_dark="#1e293b",
+    checkbox_label_background_fill_hover_dark="#334155",
+    checkbox_label_background_fill_selected_dark="#1e3a5f",
+    checkbox_label_text_color_dark="#e2e8f0",
+    checkbox_label_text_color_selected_dark="#f8fafc",
+    # Tabs
+    color_accent_dark="#f97316",
+    color_accent_soft_dark="#431407",
+    # Table
+    table_even_background_fill_dark="#1e293b",
+    table_odd_background_fill_dark="#162032",
+    table_border_color_dark="#334155",
+    table_row_focus_dark="#334155",
+    # Slider
+    slider_color_dark="#f97316",
+    
     # Misc
     shadow_drop="0 2px 8px rgba(0,0,0,0.4)",
     shadow_spread="0px",
@@ -254,7 +322,7 @@ dark_theme = gr.themes.Base(
 with gr.Blocks(
     css=css,
     title="🫁 Lung Cancer Detection",
-    theme=dark_theme,
+    theme=app_theme,
 ) as demo:
 
     gr.Markdown("""
