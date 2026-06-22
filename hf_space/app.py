@@ -191,90 +191,70 @@ def classify_npy(npy_file, threshold):
 
 
 # ---------------------------------------------------------------------------
-# Gradio UI
+# Gradio UI — Dark Theme via Gradio Theme Variables (nicht CSS-Override)
 # ---------------------------------------------------------------------------
+
+# Nur Layout-CSS, keine Farb-Overrides (Gradio Theme kümmert sich darum)
 css = """
-/* ---- Dunkler Hintergrund für die gesamte App ---- */
-body, .gradio-container {
-    background-color: #0f172a !important;
-    color: #e2e8f0 !important;
-}
-
-/* ---- Überschriften ---- */
-h1 { font-size: 2rem !important; font-weight: 800 !important; color: #f8fafc !important; }
-h2 { font-size: 1.4rem !important; color: #f1f5f9 !important; }
-h3 { color: #f1f5f9 !important; }
-
-/* ---- Fließtext, Labels, Markdown ---- */
-p, label, .label-wrap span, span, li {
-    color: #cbd5e1 !important;
-    font-size: 1rem !important;
-}
-.prose p, .prose li, .prose strong { color: #cbd5e1 !important; }
-
-/* ---- Tabellen in Markdown ---- */
-table { color: #e2e8f0 !important; }
-th { color: #f8fafc !important; background-color: #1e293b !important; }
-td { color: #cbd5e1 !important; background-color: #1e293b !important; }
-
-/* ---- Panels / Boxes ---- */
-.block, .panel, .form {
-    background-color: #1e293b !important;
-    border: 1px solid #334155 !important;
-    border-radius: 8px !important;
-}
-
-/* ---- Tabs ---- */
-.tab-nav { background-color: #1e293b !important; border-bottom: 1px solid #334155 !important; }
-.tab-nav button {
-    font-size: 1rem !important;
-    font-weight: 600 !important;
-    color: #94a3b8 !important;
-}
-.tab-nav button.selected { color: #f97316 !important; border-bottom: 2px solid #f97316 !important; }
-
-/* ---- Radio buttons: alle Gradio-Selektoren abdecken ---- */
-.radio-group label,
-.radio-group label span,
-.radio-group span,
-fieldset label,
-fieldset label span,
-fieldset span,
-.wrap label,
-.wrap span,
-input[type="radio"] + span,
-input[type="radio"] ~ span,
-.svelte-1gfkn6j,
-[data-testid="radio-group"] label,
-[data-testid="radio-group"] span {
-    color: #f1f5f9 !important;
-    font-weight: 500 !important;
-}
-/* Radio-Box Hintergrund ---- */
-fieldset, .form { background-color: #1e293b !important; }
-.radio-group { background-color: #1e293b !important; }
-
-/* ---- Slider ---- */
-.slider input { accent-color: #f97316 !important; }
-
-/* ---- Code blocks ---- */
-code, pre { background-color: #0f172a !important; color: #7dd3fc !important; border-radius: 4px !important; }
-
-/* ---- Container ---- */
-.gradio-container { max-width: 960px !important; margin: auto !important; }
+.gradio-container { max-width: 980px !important; margin: auto !important; }
+h1 { font-size: 2rem !important; font-weight: 800 !important; }
 footer { display: none !important; }
 """
+
+dark_theme = gr.themes.Base(
+    primary_hue="orange",
+    secondary_hue="sky",
+    neutral_hue="slate",
+    font=gr.themes.GoogleFont("Inter"),
+    text_size=gr.themes.sizes.text_md,
+).set(
+    # Hintergründe
+    body_background_fill="#0f172a",
+    background_fill_primary="#1e293b",
+    background_fill_secondary="#0f172a",
+    # Text
+    body_text_color="#e2e8f0",
+    body_text_color_subdued="#94a3b8",
+    block_label_text_color="#94a3b8",
+    block_title_text_color="#f1f5f9",
+    # Inputs & Borders
+    input_background_fill="#0f172a",
+    input_background_fill_focus="#0f172a",
+    input_border_color="#334155",
+    input_border_color_focus="#f97316",
+    input_placeholder_color="#64748b",
+    # Blocks
+    border_color_accent="#f97316",
+    border_color_primary="#334155",
+    # Checkboxes / Radio
+    checkbox_background_color="#1e293b",
+    checkbox_background_color_selected="#f97316",
+    checkbox_border_color="#475569",
+    checkbox_border_color_selected="#f97316",
+    checkbox_label_background_fill="#1e293b",
+    checkbox_label_background_fill_hover="#334155",
+    checkbox_label_background_fill_selected="#1e3a5f",
+    checkbox_label_text_color="#e2e8f0",
+    checkbox_label_text_color_selected="#f8fafc",
+    # Tabs
+    color_accent="#f97316",
+    color_accent_soft="#431407",
+    # Table
+    table_even_background_fill="#1e293b",
+    table_odd_background_fill="#162032",
+    table_border_color="#334155",
+    table_row_focus="#334155",
+    # Slider
+    slider_color="#f97316",
+    # Misc
+    shadow_drop="0 2px 8px rgba(0,0,0,0.4)",
+    shadow_spread="0px",
+)
 
 with gr.Blocks(
     css=css,
     title="🫁 Lung Cancer Detection",
-    theme=gr.themes.Base(
-        primary_hue="orange",
-        secondary_hue="sky",
-        neutral_hue="slate",
-        font=gr.themes.GoogleFont("Inter"),
-        text_size=gr.themes.sizes.text_md,
-    ),
+    theme=dark_theme,
 ) as demo:
 
     gr.Markdown("""
