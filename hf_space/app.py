@@ -304,7 +304,6 @@ app_theme = gr.themes.Base(
     checkbox_label_text_color_dark="#e2e8f0",
     checkbox_label_text_color_selected_dark="#f8fafc",
     # Tabs
-    color_accent_dark="#f97316",
     color_accent_soft_dark="#431407",
     # Table
     table_even_background_fill_dark="#1e293b",
