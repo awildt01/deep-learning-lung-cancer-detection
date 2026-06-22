@@ -1,6 +1,7 @@
 """Gradio Demo – Lung Cancer Nodule Classifier (3D CNN, LUNA16)."""
 
 import io
+import os
 
 import gradio as gr
 import matplotlib
@@ -15,15 +16,30 @@ from model import LunaModel
 # ---------------------------------------------------------------------------
 # Modell laden
 # ---------------------------------------------------------------------------
-CHECKPOINT = "luna_model_best.pt"
+# Absoluter Pfad zur .pt-Datei (robust gegen wechselndes Working Dir auf HF Spaces)
+_HERE = os.path.dirname(os.path.abspath(__file__))
+CHECKPOINT = os.path.join(_HERE, "luna_model_best.pt")
 DEVICE = torch.device("cpu")
 
 
 def load_model():
     model = LunaModel()
+    if not os.path.exists(CHECKPOINT):
+        raise FileNotFoundError(
+            f"Checkpoint nicht gefunden: '{CHECKPOINT}'\n"
+            f"__file__={__file__}\n"
+            f"cwd={os.getcwd()}\n"
+            f"Dateien in _HERE: {os.listdir(_HERE)}"
+        )
+    size_mb = os.path.getsize(CHECKPOINT) / 1e6
+    print(f"[INFO] Lade Checkpoint: {CHECKPOINT} ({size_mb:.2f} MB)")
     ckpt = torch.load(CHECKPOINT, map_location="cpu", weights_only=False)
+    epoch = ckpt.get('epoch', '?')
+    best_f1 = ckpt.get('best_f1', 0)
+    print(f"[INFO] Checkpoint OK: epoch={epoch}, best_f1={best_f1:.4f}")
     model.load_state_dict(ckpt["model"])
     model.eval()
+    print("[INFO] Modell erfolgreich geladen und bereit.")
     return model
 
 
@@ -123,7 +139,9 @@ def visualize_patch(patch_array: np.ndarray, prob: float, threshold: float) -> I
 
 
 def classify_demo(demo_choice, threshold):
-    patch = DEMO_NODULE.copy() if "Knoten-Beispiel" in demo_choice else DEMO_NON_NODULE.copy()
+    # WICHTIG: "Knoten-Beispiel" ist ein Substring von "Nicht-Knoten-Beispiel"!
+    # Daher prüfen wir auf das eindeutige rote Emoji 🔴 (nur beim Knoten-Beispiel).
+    patch = DEMO_NODULE.copy() if "\U0001f534" in demo_choice else DEMO_NON_NODULE.copy()
     prob = predict_patch(patch)
     is_nodule = prob >= threshold
     label = "🔴 KNOTEN erkannt" if is_nodule else "🟢 Kein Knoten"
