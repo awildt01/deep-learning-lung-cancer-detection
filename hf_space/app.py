@@ -233,8 +233,26 @@ td { color: #cbd5e1 !important; background-color: #1e293b !important; }
 }
 .tab-nav button.selected { color: #f97316 !important; border-bottom: 2px solid #f97316 !important; }
 
-/* ---- Radio buttons ---- */
-.radio-group label { color: #e2e8f0 !important; }
+/* ---- Radio buttons: alle Gradio-Selektoren abdecken ---- */
+.radio-group label,
+.radio-group label span,
+.radio-group span,
+fieldset label,
+fieldset label span,
+fieldset span,
+.wrap label,
+.wrap span,
+input[type="radio"] + span,
+input[type="radio"] ~ span,
+.svelte-1gfkn6j,
+[data-testid="radio-group"] label,
+[data-testid="radio-group"] span {
+    color: #f1f5f9 !important;
+    font-weight: 500 !important;
+}
+/* Radio-Box Hintergrund ---- */
+fieldset, .form { background-color: #1e293b !important; }
+.radio-group { background-color: #1e293b !important; }
 
 /* ---- Slider ---- */
 .slider input { accent-color: #f97316 !important; }
