@@ -194,11 +194,56 @@ def classify_npy(npy_file, threshold):
 # Gradio UI
 # ---------------------------------------------------------------------------
 css = """
+/* ---- Dunkler Hintergrund für die gesamte App ---- */
+body, .gradio-container {
+    background-color: #0f172a !important;
+    color: #e2e8f0 !important;
+}
+
+/* ---- Überschriften ---- */
 h1 { font-size: 2rem !important; font-weight: 800 !important; color: #f8fafc !important; }
-h2 { font-size: 1.4rem !important; color: #e2e8f0 !important; }
-p, label { color: #cbd5e1 !important; font-size: 1rem !important; }
+h2 { font-size: 1.4rem !important; color: #f1f5f9 !important; }
+h3 { color: #f1f5f9 !important; }
+
+/* ---- Fließtext, Labels, Markdown ---- */
+p, label, .label-wrap span, span, li {
+    color: #cbd5e1 !important;
+    font-size: 1rem !important;
+}
+.prose p, .prose li, .prose strong { color: #cbd5e1 !important; }
+
+/* ---- Tabellen in Markdown ---- */
+table { color: #e2e8f0 !important; }
+th { color: #f8fafc !important; background-color: #1e293b !important; }
+td { color: #cbd5e1 !important; background-color: #1e293b !important; }
+
+/* ---- Panels / Boxes ---- */
+.block, .panel, .form {
+    background-color: #1e293b !important;
+    border: 1px solid #334155 !important;
+    border-radius: 8px !important;
+}
+
+/* ---- Tabs ---- */
+.tab-nav { background-color: #1e293b !important; border-bottom: 1px solid #334155 !important; }
+.tab-nav button {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #94a3b8 !important;
+}
+.tab-nav button.selected { color: #f97316 !important; border-bottom: 2px solid #f97316 !important; }
+
+/* ---- Radio buttons ---- */
+.radio-group label { color: #e2e8f0 !important; }
+
+/* ---- Slider ---- */
+.slider input { accent-color: #f97316 !important; }
+
+/* ---- Code blocks ---- */
+code, pre { background-color: #0f172a !important; color: #7dd3fc !important; border-radius: 4px !important; }
+
+/* ---- Container ---- */
 .gradio-container { max-width: 960px !important; margin: auto !important; }
-.tab-nav button { font-size: 1rem !important; font-weight: 600 !important; }
 footer { display: none !important; }
 """
 
@@ -207,8 +252,10 @@ with gr.Blocks(
     title="🫁 Lung Cancer Detection",
     theme=gr.themes.Base(
         primary_hue="orange",
+        secondary_hue="sky",
         neutral_hue="slate",
         font=gr.themes.GoogleFont("Inter"),
+        text_size=gr.themes.sizes.text_md,
     ),
 ) as demo:
 
