@@ -14,7 +14,9 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 
 ![Banner](docs/fixed_cnn_lung_tumor_detection.png)
 
-[![🤗 Live Demo auf Hugging Face Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/open-in-hf-spaces-xl-dark.svg)](https://huggingface.co/spaces/wildt/lung-cancer-detection)
+[![Open in Hugging Face Spaces](https://img.shields.io/badge/🤗%20Live%20Demo-Hugging%20Face%20Spaces-ff9900?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co/spaces/wildt/lung-cancer-detection)
+&nbsp;
+[![Gradio](https://img.shields.io/badge/Gradio-App-orange?style=for-the-badge)](https://huggingface.co/spaces/wildt/lung-cancer-detection)
 
 <br>
 
