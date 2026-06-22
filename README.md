@@ -25,6 +25,17 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
   - [Anzeigen von Schnitten des Volumens](#anzeigen-von-schnitten-des-volumens)
   - [Fensterung (Windowing)](#fensterung-windowing)
 - [Datenpipeline](#Datenpipeline)
+- [Modellbewertung — Notebook 08](#modellbewertung--notebook-08)
+  - [Trainingskurven](#trainingskurven)
+  - [Zwei Checkpoints — eine klare Strategie](#zwei-checkpoints--eine-klare-strategie)
+  - [Der Klassenungleichgewicht-Effekt](#der-klassenungleichgewicht-effekt)
+  - [Konfusionsmatrix](#konfusionsmatrix)
+  - [ROC-Kurve (AUC = 0.987)](#roc-kurve-auc--0987)
+  - [Precision-Recall-Kurve (AP = 0.669)](#precision-recall-kurve-ap--0669)
+  - [Threshold-Optimierung für den medizinischen Einsatz](#threshold-optimierung-für-den-medizinischen-einsatz)
+  - [Wahrscheinlichkeitsverteilung](#wahrscheinlichkeitsverteilung)
+  - [Fehleranalyse: Falsch-Negative und Falsch-Positive](#fehleranalyse-falsch-negative-und-falsch-positive)
+  - [Exportiertes Inferenzmodul](#exportiertes-inferenzmodul)
 - [Fortschritt](#Fortschritt)
 - [Projektstruktur](#Projektstruktur)
 - [Installation und Konfiguration](#Installation-und-Konfiguration)
@@ -248,6 +259,152 @@ plt.show()
 <p align="center"><em>Derselbe CT-Schnitt unter Anwendung dreier unterschiedlicher Fensterungen.</em></p>
 
 <br>
+
+---
+
+## Modellbewertung — Notebook 08
+
+Nach 20 Trainingsepochen auf Google Colab (GPU) wird das trainierte `LunaModel` in diesem Notebook einer systematischen, medizinisch orientierten Auswertung unterzogen. Das Ziel: nicht nur eine einzige Kennzahl ablesen, sondern das Verhalten des Modells wirklich **verstehen** — inklusive seiner Fehler.
+
+<br>
+
+### Trainingskurven
+
+Bevor wir das Modell auf dem Validierungsset auswerten, lohnt sich ein Blick auf den Trainingsverlauf über alle 20 Epochen.
+
+<p align="center">
+  <img src="docs/evaluation_training_curves.png" alt="Trainingskurven: Loss und Metriken über 20 Epochen" width="95%">
+</p>
+<p align="center"><em>Links: Trainings- und Validierungs-Loss über 20 Epochen — beide sinken gemeinsam ohne große Divergenz (kein Overfitting). Rechts: Recall, Präzision und F1-Score auf dem Validierungsset. Der beste Checkpoint (Epoche 13, F1 = 0.313) wird für die finale Auswertung geladen.</em></p>
+
+<br>
+
+### Zwei Checkpoints — eine klare Strategie
+
+Während des Trainings werden zwei Checkpoints gespeichert:
+
+| Checkpoint | Beschreibung |
+| :--- | :--- |
+| `luna_model_best.pt` | Epoche mit dem besten Validierungs-F1-Score (Epoche 13, F1 = 0.313) |
+| `luna_model_latest.pt` | Letzter Trainingsstand (Epoche 20) mit vollständiger Verlaufshistorie |
+
+Die **Gewichte** stammen aus dem Best-Checkpoint (Epoche 13), die **Trainingshistorie** (alle 20 Epochen) aus dem Latest-Checkpoint. Dadurch ergibt sich das vollständige Bild: Wie hat sich das Modell entwickelt, und welcher Stand ist für den Einsatz geeignet?
+
+> **Warum der F1-Score als Kriterium?** Bei einem stark unbalancierten Datensatz (~0,25 % echte Knoten) ist der F1-Score robuster als bloße Genauigkeit (Accuracy), da er sowohl Präzision als auch Recall berücksichtigt.
+
+<br>
+
+### Der Klassenungleichgewicht-Effekt
+
+Ein wichtiges Detail des Trainings: Die **Trainingsmetriken** sind bewusst überhöht, weil balancierte Batches verwendet wurden (50 % Knoten, 50 % Nicht-Knoten). Auf dem Validierungsset hingegen spiegelt sich die **reale Verteilung** wider (~0,25 % Knoten). Folglich fallen Präzision und F1-Score auf dem Validierungsset deutlich niedriger aus — dies ist kein Anzeichen für ein schlechtes Modell, sondern ein erwartetes und bekanntes Phänomen.
+
+<br>
+
+### Konfusionsmatrix
+
+Die Konfusionsmatrix bei Threshold 0,5 zeigt das Ergebnis auf dem gesamten Validierungsset auf einen Blick:
+
+<p align="center">
+  <img src="docs/nb08_plot_020_001.png" alt="Konfusionsmatrix bei Threshold 0.5" width="55%">
+</p>
+<p align="center"><em>Konfusionsmatrix (Threshold = 0.5): Das Modell erkennt 127 von 136 echten Knoten korrekt (Recall ≈ 93 %) und produziert 1.476 Fehlalarme bei 54.971 Nicht-Knoten.</em></p>
+
+Die Zahlen im Überblick:
+
+| | Vorhergesagt: Kein Knoten | Vorhergesagt: Knoten |
+| :--- | :---: | :---: |
+| **Tatsächlich: Kein Knoten** | 53.495 ✅ (TN) | 1.476 ❌ (FP) |
+| **Tatsächlich: Knoten** | 9 ❌ (FN) | 127 ✅ (TP) |
+
+<br>
+
+### ROC-Kurve (AUC = 0.987)
+
+Die ROC-Kurve zeigt den Trade-off zwischen Recall (Sensitivität) und Falsch-Positiv-Rate über alle möglichen Schwellenwerte. Ein AUC-Wert nahe 1,0 bedeutet eine exzellente Unterscheidungsfähigkeit.
+
+<p align="center">
+  <img src="docs/nb08_plot_023_000.png" alt="ROC-Kurve AUC=0.987" width="55%">
+</p>
+<p align="center"><em>ROC-Kurve: AUC = 0.987 — das Modell trennt Knoten von Nicht-Knoten deutlich besser als ein zufälliger Klassifikator (gestrichelte Linie).</em></p>
+
+<br>
+
+### Precision-Recall-Kurve (AP = 0.669)
+
+Die ROC-Kurve kann bei stark unbalancierten Datensätzen zu optimistisch wirken. Die Precision-Recall-Kurve (AP = Average Precision) ist hier aussagekräftiger — sie zeigt direkt, wie gut das Modell echte Knoten findet, ohne Fehlalarme zu erzeugen.
+
+<p align="center">
+  <img src="docs/nb08_plot_026_000.png" alt="Precision-Recall-Kurve AP=0.669" width="55%">
+</p>
+<p align="center"><em>Precision-Recall-Kurve: AP = 0.669. Bei hohem Recall (> 80 %) sinkt die Präzision deutlich — ein klassisches Merkmal des Klassenungleichgewichts in medizinischen Datensätzen.</em></p>
+
+<br>
+
+### Threshold-Optimierung für den medizinischen Einsatz
+
+Der Standard-Schwellenwert von 0,5 ist für medizinische Anwendungen oft nicht optimal. Das Notebook analysiert systematisch alle Schwellenwerte und deren Auswirkung auf den Trade-off zwischen Sensitivität und Spezifität.
+
+<p align="center">
+  <img src="docs/nb08_plot_030_000.png" alt="Metriken vs. Threshold" width="65%">
+</p>
+<p align="center"><em>Recall, Präzision und F1-Score als Funktion des Schwellenwerts. Ein niedriger Threshold hält den Recall hoch (fast alle Knoten werden erkannt), erhöht aber die Fehlalarmrate.</em></p>
+
+> **Medizinische Implikation:** In der Krebsfrüherkennung ist ein **hoher Recall** (wenige übersehene Knoten) wichtiger als hohe Präzision. Ein angepasster Schwellenwert kann die Sensitivität deutlich verbessern — auf Kosten von mehr Fehlalarmen, die durch Radiologen überprüft werden können.
+
+<br>
+
+### Wahrscheinlichkeitsverteilung
+
+Ein weiterer Blick auf das Modellverhalten: die Verteilung der vorhergesagten Wahrscheinlichkeiten getrennt nach Klasse. Eine gute Trennung der Verteilungen deutet auf eine hohe Modellsicherheit hin.
+
+<p align="center">
+  <img src="docs/nb08_plot_045_000.png" alt="Verteilung der Wahrscheinlichkeiten nach Klasse" width="65%">
+</p>
+<p align="center"><em>Wahrscheinlichkeitsverteilung nach Klasse: Nicht-Knoten häufen sich nahe 0 (das Modell ist sicher, dass es kein Knoten ist), echte Knoten häufen sich nahe 1 (das Modell erkennt sie mit hoher Konfidenz).</em></p>
+
+<br>
+
+### Fehleranalyse: Falsch-Negative und Falsch-Positive
+
+Das Notebook visualisiert die schwerwiegendsten Fehler des Modells direkt als CT-Ausschnitte:
+
+**Falsch-Negative (FN) — übersehene Knoten ⚠️**
+
+Echte Knoten, die das Modell mit Threshold 0,5 nicht erkannt hat — sortiert nach aufsteigender Konfidenz (die am wenigsten sicheren Fehler zuerst):
+
+<p align="center">
+  <img src="docs/nb08_plot_036_000.png" alt="Falsch-Negative: übersehene Knoten" width="95%">
+</p>
+<p align="center"><em>Falsch-Negative Kandidaten: echte Lungenknoten, die das Modell übersehen hat. Die Konfidenz reicht von 0.017 bis 0.236 — einige dieser Fälle sind auch für das menschliche Auge schwer zu erkennen.</em></p>
+
+**Falsch-Positive (FP) — Fehlalarme**
+
+Kandidaten, die das Modell fälschlicherweise als Knoten markiert hat — sortiert nach absteigender Konfidenz (die „überzeugendsten" Fehlalarme):
+
+<p align="center">
+  <img src="docs/nb08_plot_038_000.png" alt="Falsch-Positive: Fehlalarme" width="95%">
+</p>
+<p align="center"><em>Falsch-Positive Kandidaten: Das Modell klassifiziert diese Kandidaten mit Konfidenz 1.000 als Knoten — sie sind es jedoch nicht. Strukturen wie Blutgefäße oder Gewebeübergänge können morphologisch knotenartig erscheinen.</em></p>
+
+**Drei anatomische Ebenen im Vergleich**
+
+Für den kritischsten Falsch-Negativ-Fall wird der CT-Ausschnitt in allen drei Standardebenen dargestellt:
+
+<p align="center">
+  <img src="docs/nb08_plot_041_000.png" alt="Falsch-Negativer Knoten in drei anatomischen Ebenen" width="75%">
+</p>
+<p align="center"><em>Ein übersehener Knoten (prob = 0.017) in axialer, koronaler und sagittaler Ansicht. Die drei Ebenen zeigen, warum dieser Fall schwierig ist: Der Kandidat liegt in einer Region mit komplexen anatomischen Strukturen.</em></p>
+
+<br>
+
+### Exportiertes Inferenzmodul
+
+Als letzter Schritt exportiert das Notebook ein produktionsreifes Modul `src/inference.py` mit allen Funktionen, die für den Einsatz mit dem Gradio-Interface (Notebook 09) benötigt werden. Dieses Modul kapselt die gesamte Inferenzlogik — vom Laden des Modells bis zur Rückgabe der Klassifizierungsergebnisse.
+
+<br>
+
+---
+
 
 ## Fortschritt
 
