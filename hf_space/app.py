@@ -85,7 +85,8 @@ def visualize_patch(patch_array: np.ndarray, prob: float, threshold: float) -> I
     is_nodule = prob >= threshold
     bg_color = "#0f172a"
     accent = "#ef4444" if is_nodule else "#22c55e"
-    label = "🔴  KNOTEN ERKANNT" if is_nodule else "🟢  KEIN KNOTEN"
+    # ASCII-Labels für matplotlib (keine Emoji-Glyphen nötig)
+    label = "[!] KNOTEN ERKANNT" if is_nodule else "[OK] KEIN KNOTEN"
 
     fig = plt.figure(figsize=(18, 5), facecolor=bg_color)
     gs = fig.add_gridspec(1, 5, wspace=0.3)
