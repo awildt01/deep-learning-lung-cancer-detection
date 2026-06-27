@@ -17,6 +17,19 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
 [![Open in Hugging Face Spaces](https://img.shields.io/badge/🤗%20Live%20Demo-Hugging%20Face%20Spaces-ff9900?style=for-the-badge&logo=huggingface&logoColor=white)](https://huggingface.co/spaces/wildt/lung-cancer-detection)
 &nbsp;
 [![Gradio](https://img.shields.io/badge/Gradio-App-orange?style=for-the-badge)](https://huggingface.co/spaces/wildt/lung-cancer-detection)
+&nbsp;
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
+
+### Ergebnisse auf einen Blick
+
+| Metrik | Wert |
+| :--- | :---: |
+| **ROC AUC** | 0.987 |
+| **Average Precision (AP)** | 0.669 |
+| **Recall @ Threshold 0.5** | 93,4 % (127/136 Knoten erkannt) |
+| **Bester F1-Score** | 0.313 (Epoche 13) |
+| **Trainingsepochen** | 20 (Google Colab GPU) |
+| **Datensatz** | LUNA16 — ~551.000 Kandidaten |
 
 <br>
 
@@ -41,9 +54,12 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
   - [Wahrscheinlichkeitsverteilung](#wahrscheinlichkeitsverteilung)
   - [Fehleranalyse: Falsch-Negative und Falsch-Positive](#fehleranalyse-falsch-negative-und-falsch-positive)
   - [Exportiertes Inferenzmodul](#exportiertes-inferenzmodul)
+- [Schnellstart — Inferenz](#schnellstart--inferenz)
 - [Fortschritt](#Fortschritt)
 - [Projektstruktur](#Projektstruktur)
 - [Installation und Konfiguration](#Installation-und-Konfiguration)
+- [Autor](#Autor)
+- [Lizenz](#Lizenz)
 
 <br>
 
@@ -456,6 +472,34 @@ Als letzter Schritt exportiert das Notebook ein produktionsreifes Modul `src/inf
 
 ---
 
+## Schnellstart — Inferenz
+
+So klassifizieren Sie die Kandidaten eines einzelnen CT-Scans mit einem trainierten Checkpoint:
+
+```python
+import torch
+from src.inference import load_model, classify_ct
+
+# 1. Modell laden
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model, info = load_model("checkpoints/luna_model_best.pt", device=device)
+print(f"Checkpoint: Epoche {info['epoch']}, F1 = {info['best_f1']:.3f}")
+
+# 2. Alle Kandidaten eines CT-Scans klassifizieren
+series_uid = "1.3.6.1.4.1.14519.5.2.1.6279.6001.100225287222365663678666836860"
+results = classify_ct(series_uid, model, device)
+
+# 3. Top-5 Kandidaten mit höchster Knoten-Wahrscheinlichkeit
+for r in results[:5]:
+    print(f"  P(Knoten) = {r['probability']:.3f}  |  Koordinaten: {r['center_xyz']}")
+```
+
+> **Voraussetzung:** Der LUNA16-Datensatz muss unter `data/` verfügbar sein (siehe [Installation und Konfiguration](#Installation-und-Konfiguration)).
+
+<br>
+
+---
+
 
 ## Fortschritt
 
@@ -527,3 +571,15 @@ uv sync
 # Linux / macOS
 source .venv/bin/activate
 ```
+
+<br>
+
+---
+
+## Autor
+
+**Carlos Melo** ([@awildt01](https://github.com/awildt01))
+
+## Lizenz
+
+Dieses Projekt steht unter der [MIT-Lizenz](LICENSE).
