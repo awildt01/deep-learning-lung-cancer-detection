@@ -443,6 +443,21 @@ Als letzter Schritt exportiert das Notebook ein produktionsreifes Modul `src/inf
 
 ## Installation und Konfiguration
 
+### Systemvoraussetzungen
+
+| Anforderung | Minimum | Empfohlen |
+| :--- | :--- | :--- |
+| **Python** | ≥ 3.11.3 | 3.11.x oder 3.12.x |
+| **GPU** | Nicht erforderlich (CPU-Inferenz möglich) | NVIDIA-GPU mit CUDA-Unterstützung |
+| **CUDA** | — | CUDA 11.8 oder 12.x (passend zur PyTorch-Version) |
+| **RAM** | 8 GB | ≥ 16 GB (CT-Scans sind speicherintensiv) |
+| **Festplatte** | ~2 GB (Code + Modell) | ~250 GB (inkl. LUNA16-Datensatz) |
+| **Paketverwaltung** | [UV](https://docs.astral.sh/uv/) | — |
+
+> **Hinweis zur GPU:** Das Training des 3D-CNN wurde auf Google Colab (NVIDIA T4/A100) durchgeführt. Für reine Inferenz reicht eine CPU aus, das Training ohne GPU ist jedoch nicht praktikabel. PyTorch wird in der Version `≥ 2.2, < 2.6` verwendet — stellen Sie sicher, dass Ihre CUDA-Toolkit-Version dazu kompatibel ist ([PyTorch-Kompatibilitätsmatrix](https://pytorch.org/get-started/locally/)).
+
+### Schritte
+
 1. Klonen Sie das Repository auf Ihren lokalen Rechner:
 
 ```bash
@@ -459,5 +474,9 @@ uv sync
 3. Aktivieren Sie die virtuelle Umgebung:
 
 ```bash
+# Windows (PowerShell)
 .venv\Scripts\activate
+
+# Linux / macOS
+source .venv/bin/activate
 ```
