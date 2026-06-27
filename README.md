@@ -29,6 +29,7 @@ Binäre Klassifizierungspipeline (Knoten vs. Nicht-Knoten) bei Computertomograph
   - [Anzeigen von Schnitten des Volumens](#anzeigen-von-schnitten-des-volumens)
   - [Fensterung (Windowing)](#fensterung-windowing)
 - [Datenpipeline](#Datenpipeline)
+- [Modell-Architektur](#Modell-Architektur)
 - [Modellbewertung — Notebook 08](#modellbewertung--notebook-08)
   - [Trainingskurven](#trainingskurven)
   - [Zwei Checkpoints — eine klare Strategie](#zwei-checkpoints--eine-klare-strategie)
@@ -261,6 +262,52 @@ plt.show()
   <img src="docs/04_fenster.png" alt="Windowing-Effekt auf CT-Schnitt" width="85%">
 </p>
 <p align="center"><em>Derselbe CT-Schnitt unter Anwendung dreier unterschiedlicher Fensterungen.</em></p>
+
+<br>
+
+---
+
+## Modell-Architektur
+
+Das Netzwerk wurde in **PyTorch** implementiert und besteht aus zwei Kernkomponenten: einem wiederverwendbaren `LunaBlock` und dem übergeordneten `LunaModel`.
+
+### LunaBlock — der Baustein
+
+Jeder Block enthält:
+* **2 × Conv3d** (Kernel 3×3×3, Padding 1) — Extraktion räumlicher Features über alle drei Dimensionen hinweg.
+* **ReLU-Aktivierung** nach jeder Faltung.
+* **3D Max-Pooling** (2×2×2) — Downsampling der Feature-Maps zur Reduktion der Dimensionalität.
+
+### LunaModel — die Gesamtarchitektur
+
+```
+Eingabe: [B, 1, 32, 48, 48]   ← 3D-Ausschnitt (1 Kanal, Grauwert)
+
+  ┌─ BatchNorm3d(1)            ← Normalisierung der Rohdaten
+  │
+  ├─ LunaBlock 1:   1  →  8 Kanäle   (Ausgabe: 16×24×24)
+  ├─ LunaBlock 2:   8  → 16 Kanäle   (Ausgabe: 8×12×12)
+  ├─ LunaBlock 3:  16  → 32 Kanäle   (Ausgabe: 4×6×6)
+  ├─ LunaBlock 4:  32  → 64 Kanäle   (Ausgabe: 2×3×3)
+  │
+  ├─ Flatten                   ← 64 × 2 × 3 × 3 = 1.152 Features
+  ├─ Linear(1152, 2)           ← Fully-Connected-Layer (2 Klassen)
+  └─ Softmax(dim=1)            ← Wahrscheinlichkeiten: [P(kein Knoten), P(Knoten)]
+```
+
+### Zusammenfassung
+
+| Eigenschaft | Details |
+| :--- | :--- |
+| **Framework** | PyTorch (≥ 2.2) |
+| **Typ** | 3D-CNN (binäre Klassifikation) |
+| **Eingabe** | `[B, 1, 32, 48, 48]` — einzelner Grauwert-Kanal |
+| **Blöcke** | 4 × LunaBlock (je 2 Conv3d + ReLU + MaxPool3d) |
+| **Kanalprogression** | 1 → 8 → 16 → 32 → 64 |
+| **Klassifikationskopf** | Linear(1152, 2) + Softmax |
+| **Normalisierung** | BatchNorm3d am Eingang |
+| **Gewichtsinitialisierung** | Kaiming Normal (fan-out, ReLU) |
+| **Ausgabe** | Logits + Wahrscheinlichkeiten (2 Klassen) |
 
 <br>
 
